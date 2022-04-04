@@ -19,5 +19,8 @@ Router.map(function () {
   this.route('boom');
   this.route('boom-client');
 
+  this.route('edit', function () {
+    this.route('description');
+  });
   this.route('not-found', { path: '/*path' });
 });
