@@ -65,6 +65,14 @@
         <div class="card-space-user-page__description">
           Here is a description field that will be shown only in development/with auth.
           It's center aligned, if we allow long descriptions it should be left aligned.
+
+          <Boxel::Button
+            class="card-space-user-page__edit-button"
+            @as="link-to"
+            @route="edit.description"
+          >
+            Update description
+          </Boxel::Button>
         </div>
       {{/if}}
 
