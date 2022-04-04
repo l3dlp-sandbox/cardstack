@@ -6,6 +6,7 @@
   margin: auto;
   padding: var(--boxel-sp-lg);
   background: var(--boxel-purple-600);
+  text-align: center;
 }
 
 .card-space-user-page__wrapper {
@@ -63,12 +64,7 @@
   color: currentcolor;
 }
 
-.card-space-user-page__description {
-  text-align: center;
-}
-
 .card-space-user-page__title {
-  text-align: center;
   font-size: var(--boxel-font-size-xl);
   font-weight: 600;
   max-width: 30rem;
@@ -79,11 +75,17 @@
 }
 
 .card-space-user-page__url {
-  text-align: center;
   opacity: 0.9;
   font-weight: 700;
   letter-spacing: 1px;
   word-break: break-all;
+}
+
+.card-space-user-page__description {
+  margin: 0 auto;
+  max-width: 40ch;
+  font-size: var(--boxel-font-size);
+  font-weight: 400;
 }
 
 .card-space-user-payment-link {
@@ -92,13 +94,6 @@
 
 .card-space-user-page-payment-link__error {
   margin: var(--boxel-sp-sm);
-  text-align: center;
-}
-
-.card-space-user-footer {
-  text-align: center;
-  font-size: var(--boxel-font-size-sm);
-  margin-top: var(--boxel-sp-lg);
 }
 
 .card-space-user-payment-link__qr {

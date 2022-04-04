@@ -60,9 +60,17 @@
     <div class="card-space-user-page__user-content">
       <div class="card-space-user-page__title" data-test-merchant-name>
         {{@model.name}}
+
+      {{#if this.hubAuthentication.showAuth}}
+        <div class="card-space-user-page__description">
+          Here is a description field that will be shown only in development/with auth.
+          It's center aligned, if we allow long descriptions it should be left aligned.
+        </div>
+      {{/if}}
+
       </div>
 
-      <div class="card-space-user-page__description">
+      <div>
         Scan this code to pay
       </div>
 
