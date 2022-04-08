@@ -24,7 +24,6 @@ jobs:
           fi
           echo "RULE_NAME"=FlatPayment >> $GITHUB_ENV
           echo $RULE_NAME
-          echo $RULE_NAME | sed -r 's/([a-z0-9])([A-Z])/\1_\L\2/g' >> $GITHUB_ENV
 
       - name: Configure AWS credentials
         uses: aws-actions/configure-aws-credentials@v1
@@ -44,6 +43,7 @@ jobs:
           IMAGE_TAG: flat_payment
         working-directory: ./packages/cardpay-reward-programs
         run: |
+          echo $RULE_NAME | sed -r 's/([a-z0-9])([A-Z])/\1_\L\2/g'
           echo $RULE_NAME
           echo $RULE
           docker build --build-arg rule=$RULE_NAME -t $ECR_REGISTRY/$RULE:$RULE .
