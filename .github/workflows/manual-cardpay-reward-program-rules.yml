@@ -1,18 +1,23 @@
 name: Manual Build Rule [cardpay-reward-programs]
 
-# on:
-#   workflow_dispatch:
-#     inputs:
-#       environment:
-#         description: Deployment environment
-#         required: false
-#         default: staging
-#       rule:
-#         description: Rule name
-#         required: true
-#         default: FlatPayment
 on:
-  pull_request:
+  workflow_dispatch:
+    inputs:
+      environment:
+        description: Deployment environment
+        required: false
+        default: staging
+      rule:
+        type: choice
+        description: Rule name
+        required: true
+        options:
+          - FlatPayment
+          - MinSpend
+          - RetroAirdrop
+          - WeightedUsage
+          - MinOtherMerchantsPaid
+        default: FlatPayment
 
 jobs:
   build:
@@ -21,7 +26,8 @@ jobs:
       - uses: actions/checkout@v2
       - name: Set up env
         env:
-          INPUT_ENVIRONMENT: staging
+          INPUT_ENVIRONMENT: ${{ github.event.inputs.environment }}
+          RULE_NAME: ${{ github.event.inputs.rule }}
         run: |
           if [ "$INPUT_ENVIRONMENT" = "staging" ]; then
             echo "AWS_ACCESS_KEY_ID=${{ secrets.STAGING_REWARDS_ECR_WRITER_AWS_ACCESS_KEY}}" >> $GITHUB_ENV
@@ -33,7 +39,7 @@ jobs:
             echo "unrecognized environment"
             exit 1;
           fi
-          echo "RULE_NAME"=FlatPayment >> $GITHUB_ENV
+          echo "RULE_NAME"=${RULE_NAME} >> $GITHUB_ENV
           echo "AWS_REGION"=us-east-1 >> $GITHUB_ENV
 
       - name: Convert rule name to image tag (snake case)
