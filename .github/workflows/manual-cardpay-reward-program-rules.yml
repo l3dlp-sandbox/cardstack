@@ -1,16 +1,21 @@
 name: Manual Build Rule [cardpay-reward-programs]
 
+# on:
+#   workflow_dispatch:
+#     inputs:
+#       environment:
+#         description: Deployment environment
+#         required: false
+#         default: staging
+#       rule:
+#         description: Rule name
+#         required: true
+#         default: FlatPayment
 on:
-  workflow_dispatch:
-    inputs:
-      environment:
-        description: Deployment environment
-        required: false
-        default: staging
-      rule:
-        description: Rule name
-        required: true
-        default: FlatPayment
+  pull_request:
+    paths:
+      - 'packages/cardpay-reward-programs/**'
+      - '.github/workflows/manual-cardpay-reward-program-rules.yml'
 
   build:
     name: Build and Push to ECR
