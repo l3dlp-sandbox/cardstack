@@ -12,7 +12,10 @@ name: Manual Build Rule [cardpay-reward-programs]
 #         required: true
 #         default: FlatPayment
 on:
-  pull_request:
+  push:
+    branches:
+      - cs-2957-build-rule-image
+  # pull_request:
 
 jobs:
   build:
