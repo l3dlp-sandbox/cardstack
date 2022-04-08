@@ -13,9 +13,6 @@ name: Manual Build Rule [cardpay-reward-programs]
 #         default: FlatPayment
 on:
   pull_request:
-    paths:
-      - 'packages/cardpay-reward-programs/**'
-      - '.github/workflows/manual-cardpay-reward-program-rules.yml'
 
 jobs:
   build:
