@@ -15,9 +15,9 @@ jobs:
           if [ "$INPUT_ENVIRONMENT" = "staging" ]; then
             echo "AWS_ACCESS_KEY_ID=${{ secrets.STAGING_REWARDS_ECR_WRITER_AWS_ACCESS_KEY}}" >> $GITHUB_ENV
             echo "AWS_SECRET_ACCESS_KEY=${{ secrets.STAGING_REWARDS_ECR_WRITER_AWS_ACCESS_SECRET }}" >> $GITHUB_ENV
-  #     - name: Login to Amazon ECR
-  #       id: login-ecr
-  #       uses: aws-actions/amazon-ecr-login@v1
+      - name: Login to Amazon ECR
+        id: login-ecr
+        uses: aws-actions/amazon-ecr-login@v1
 
   #     - name: Build, tag, and push image to Amazon ECR
   #       env:
