@@ -34,7 +34,7 @@ jobs:
             exit 1;
           fi
           echo "RULE_NAME"=FlatPayment >> $GITHUB_ENV
-          echo "AWS_DEFAULT_REGION"=us-east-1 >> $GITHUB_ENV
+          echo "AWS_REGION"=us-east-1 >> $GITHUB_ENV
 
       - name: Convert rule name to image tag (snake case)
         shell: bash
