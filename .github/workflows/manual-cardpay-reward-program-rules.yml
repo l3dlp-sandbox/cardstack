@@ -23,8 +23,6 @@ jobs:
             exit 1;
           fi
           echo "RULE_NAME"=FlatPayment >> $GITHUB_ENV
-          echo $RULE_NAME
-          echo $RULE_NAME | sed -r 's/([A-Z])/_\L\1/g' | sed 's/^_//' | awk '{print "RULE="$1}' >> $GITHUB_ENV
 
       - name: Configure AWS credentials
         uses: aws-actions/configure-aws-credentials@v1
@@ -46,6 +44,7 @@ jobs:
         run: |
           echo $RULE_NAME
           echo $RULE
+          echo $RULE_NAME | sed -r 's/([A-Z])/_\L\1/g' | sed 's/^_//' | awk '{print "RULE="$1}' >> $GITHUB_ENV
           docker build --build-arg rule=$RULE_NAME -t $ECR_REGISTRY/$RULE:$RULE .
           docker push $ECR_REGISTRY/$RULE:$RULE
 
