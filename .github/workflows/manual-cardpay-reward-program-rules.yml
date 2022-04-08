@@ -14,7 +14,8 @@ name: Manual Build Rule [cardpay-reward-programs]
 on:
   push:
     branches:
-      - cs-2957-build-rule-image
+      - "*"
+      # - cs-2957-build-rule-image
   # pull_request:
 
 jobs:
