@@ -10,7 +10,7 @@ jobs:
       - uses: actions/checkout@v2
       - name: Set up env
         env:
-          INPUT_ENVIRONMENT: ${{ github.event.inputs.environment }}
+          INPUT_ENVIRONMENT: staging
         run: |
           if [ "$INPUT_ENVIRONMENT" = "staging" ]; then
             echo "AWS_ACCESS_KEY_ID=${{ secrets.STAGING_REWARDS_ECR_WRITER_AWS_ACCESS_KEY}}" >> $GITHUB_ENV
