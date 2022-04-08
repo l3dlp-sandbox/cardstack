@@ -1,5 +1,16 @@
 name: Manual Build Rule [cardpay-reward-programs]
 
+# on:
+#   workflow_dispatch:
+#     inputs:
+#       environment:
+#         description: Deployment environment
+#         required: false
+#         default: staging
+#       rule:
+#         description: Rule name
+#         required: true
+#         default: FlatPayment
 on:
   pull_request:
 
@@ -23,39 +34,27 @@ jobs:
             exit 1;
           fi
           echo "RULE_NAME"=FlatPayment >> $GITHUB_ENV
+          echo "AWS_DEFAULT_REGION"=us-east-1 >> $GITHUB_ENV
 
-      - name: Convert rule name
+      - name: Convert rule name to image tag (snake case)
         shell: bash
         run: |
           echo "IMAGE_TAG=`echo ${RULE_NAME} | sed -r 's/([A-Z])/_\L\1/g' | sed 's/^_//'`" >> $GITHUB_ENV
-          echo "ECR_REPOSITORY=`echo ${IMAGE_TAG}`" >> $GITHUB_ENV
 
-      - name: Configure AWS credentials
-        uses: aws-actions/configure-aws-credentials@v1
-        with:
-          aws-access-key-id: ${{ secrets.STAGING_REWARDS_ECR_WRITER_AWS_ACCESS_KEY }}
-          aws-secret-access-key: ${{ secrets.STAGING_REWARDS_ECR_WRITER_AWS_ACCESS_SECRET }}
+      # - name: Configure AWS credentials
+      #   uses: aws-actions/configure-aws-credentials@v1
+      #   with:
+      #     aws-access-key-id: ${{ secrets.STAGING_REWARDS_ECR_WRITER_AWS_ACCESS_KEY }}
+      #     aws-secret-access-key: ${{ secrets.STAGING_REWARDS_ECR_WRITER_AWS_ACCESS_SECRET }}
           aws-region: us-east-1
       - name: Login to Amazon ECR
         id: login-ecr
         uses: aws-actions/amazon-ecr-login@v1
 
-      - name: Build, tag, and push image to Amazon ECR
+      - name: Build, tag, and push image to Amazon ECR # -t <ecr_registry>/<ecr_repository>:<image_tag>
         env:
           ECR_REGISTRY: ${{ steps.login-ecr.outputs.registry }}
         working-directory: ./packages/cardpay-reward-programs
         run: |
-          docker build --build-arg rule=$RULE_NAME -t $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG .
-          docker push $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG
-
-# on:
-#   workflow_dispatch:
-#     inputs:
-#       environment:
-#         description: Deployment environment
-#         required: false
-#         default: staging
-#       rule:
-#         description: Rule name
-#         required: true
-#         default: FlatPayment
+          docker build --build-arg rule=$RULE_NAME -t $ECR_REGISTRY/$IMAGE_TAG:$IMAGE_TAG .
+          docker push $ECR_REGISTRY/$IMAGE_TAG:$IMAGE_TAG
