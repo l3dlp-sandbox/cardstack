@@ -43,6 +43,8 @@ jobs:
           IMAGE_TAG: flat_payment
         working-directory: ./packages/cardpay-reward-programs
         run: |
+          echo $RULE_NAME
+          echo $RULE
           docker build --build-arg rule=$RULE_NAME -t $ECR_REGISTRY/$RULE:$RULE .
           docker push $ECR_REGISTRY/$RULE:$RULE
 
