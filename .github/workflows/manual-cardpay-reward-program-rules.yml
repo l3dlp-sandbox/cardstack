@@ -24,9 +24,11 @@ jobs:
           fi
           echo "RULE_NAME"=FlatPayment >> $GITHUB_ENV
 
-      - name: Convert
+      - name: Convert ru
         shell: bash
-        run: echo "RULE=`echo ${RULE_NAME} | sed -r 's/([A-Z])/_\L\1/g' | sed 's/^_//'`" >> $GITHUB_ENV
+        run: !
+        echo "IMAGE_TAG=`echo ${RULE_NAME} | sed -r 's/([A-Z])/_\L\1/g' | sed 's/^_//'`" >> $GITHUB_ENV
+        echo "ECR_REPOSITORY=`echo $IMAGE_TAG`" >> $GITHUB_ENV"
 
       - name: Configure AWS credentials
         uses: aws-actions/configure-aws-credentials@v1
@@ -41,15 +43,10 @@ jobs:
       - name: Build, tag, and push image to Amazon ECR
         env:
           ECR_REGISTRY: ${{ steps.login-ecr.outputs.registry }}
-          RULE_NAME: FlatPayment
-          ECR_REPOSITORY: flat_payment
-          IMAGE_TAG: flat_payment
         working-directory: ./packages/cardpay-reward-programs
         run: |
-          echo $RULE_NAME
-          echo $RULE
-          docker build --build-arg rule=$RULE_NAME -t $ECR_REGISTRY/$RULE:$RULE .
-          docker push $ECR_REGISTRY/$RULE:$RULE
+          docker build --build-arg rule=$RULE_NAME -t $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG .
+          docker push $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG
 
 # on:
 #   workflow_dispatch:
