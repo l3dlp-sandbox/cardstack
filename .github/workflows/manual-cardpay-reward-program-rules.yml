@@ -6,9 +6,6 @@ on:
 jobs:
   build:
     name: Build and Push to ECR
-    defaults:
-      run:
-        working-directory: ./packages/cardpay-reward-programs
     steps:
       - uses: actions/checkout@v2
   #     - name: Set up env
