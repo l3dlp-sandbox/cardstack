@@ -17,6 +17,7 @@ on:
       - 'packages/cardpay-reward-programs/**'
       - '.github/workflows/manual-cardpay-reward-program-rules.yml'
 
+jobs:
   build:
     name: Build and Push to ECR
     defaults:
